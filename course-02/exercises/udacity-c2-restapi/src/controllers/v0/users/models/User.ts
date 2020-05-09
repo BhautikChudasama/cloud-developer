@@ -1,5 +1,9 @@
 import {Table, Column, Model, HasMany, PrimaryKey, CreatedAt, UpdatedAt} from 'sequelize-typescript';
 
+
+// Model<TableName>
+// email! Null or not.
+
 @Table
 export class User extends Model<User> {
   
@@ -8,8 +12,9 @@ export class User extends Model<User> {
   public email!: string;
 
   @Column
-  public password_hash!: string; // for nullable fields
+  public password_hash!: string; // for not nullable fields
 
+  // This column updated at current timestamp
   @Column
   @CreatedAt
   public createdAt: Date = new Date();
