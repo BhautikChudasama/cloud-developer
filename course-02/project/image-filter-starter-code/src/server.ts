@@ -14,7 +14,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.use(bodyParser.json());
 
   app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
+    res.status(404).send("try GET /filteredimage?image_url={{}}")
   } );
   
   const convertedImagesURL:any[] = [];
@@ -45,11 +45,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       })
     } 
     catch (e) {
-      res.status(500).send({
+      res.status(422).send({
         error: true,
-        message: "Server error!"
+        message: "Given URL image not found."
       });
     }
+  })
+
+  app.get("**", (req, res) => {
+    res.status(404).send("try GET /filteredimage?image_url={{}}");
   })
 
   // Start the Server
