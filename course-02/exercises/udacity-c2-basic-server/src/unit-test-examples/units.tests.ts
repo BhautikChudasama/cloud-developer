@@ -1,10 +1,10 @@
-import { add, divide } from './units';
+import { add, divide, concat } from './units';
 
 import { expect } from 'chai';
 import 'mocha';
 
 describe('add function', () => {
-
+  // Single test
   it('should add two and two', () => {
     const result = add(2,2);
     expect(result).to.equal(4);
@@ -38,3 +38,13 @@ describe('divide', () => {
 // @TODO try creating a new describe block for the "concat" method
 // it should contain an it block for each it statement in the units.ts @TODO.
 // don't forget to import the method ;)
+
+describe("Concat two strings", () => {
+  it("concat empty string", () => {
+    expect(() => {concat("nimit", "")}).to.throw("string is empty")
+  })
+
+  it("concat bhautik and chudasama", () => {
+    expect(concat("bhautik", "chudasama")).to.equal("bhautikchudasama")
+  });
+})
