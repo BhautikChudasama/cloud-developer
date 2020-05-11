@@ -1,6 +1,8 @@
-import express from 'express';
+import express, {Request, Response} from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
+
+
 
 (async () => {
 
@@ -13,13 +15,16 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
 
-  app.get( "/", async ( req, res ) => {
+  app.get( "/", async ( req: Request, res: Response ) => {
     res.status(404).send("try GET /filteredimage?image_url={{}}")
   } );
   
   const convertedImagesURL:any[] = [];
 
-  app.get("/filteredimage", async(req, res) => {
+  /**
+   * GET ./filteredimage/?=image_url={}
+   */
+  app.get("/filteredimage", async(req: Request, res: Response) => {
     const { image_url } = req.query;
     if(!image_url) {
       return res.status(500).send({
@@ -42,6 +47,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       res.status(200).sendFile(filteredImage);
       res.on("finish", () => {
         deleteLocalFiles(convertedImagesURL);
+        convertedImagesURL.pop();
       })
     } 
     catch (e) {
@@ -52,7 +58,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
   })
 
-  app.get("**", (req, res) => {
+  app.get("**", (req: Request, res: Response) => {
     res.status(404).send("try GET /filteredimage?image_url={{}}");
   })
 
